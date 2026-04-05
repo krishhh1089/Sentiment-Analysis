@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ML Text Prediction</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Machine Learning Text Prediction</h2>
+
+    <form method="POST" action="/predict">
+        <textarea name="input_text"
+                  placeholder="Enter text here..."
+                  required>{{ input_text if input_text else "" }}</textarea>
+
+        <button type="submit">Predict</button>
+    </form>
+
+   {% if prediction is not none %}
+  <div class="result">
+    {% if prediction == 1 %}
+      <p>Positive 😊</p>
+    {% else %}
+      <p>Negative 😞</p>
+    {% endif %}
+  </div>
+{% endif %}
+
+</body>
+</html>
