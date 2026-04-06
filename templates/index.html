@@ -1,32 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ML Text Prediction</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
 
-<div class="container">
-    <h2>Machine Learning Text Prediction</h2>
+<div class="card">
+    <h1>Sentiment Analyzer</h1>
 
     <form method="POST" action="/predict">
-        <textarea name="input_text"
-                  placeholder="Enter text here..."
-                  required>{{ input_text if input_text else "" }}</textarea>
 
-        <button type="submit">Predict</button>
+       
+
+        <textarea
+            id="input_text"
+            name="input_text"
+            placeholder="Enter text here..."
+            required
+        >{{ input_text if input_text else "" }}</textarea>
+
+        <button type="submit" class="btn">Predict</button>
     </form>
 
-   {% if prediction is not none %}
-  <div class="result">
-    {% if prediction == 1 %}
-      <p>Positive 😊</p>
-    {% else %}
-      <p>Negative 😞</p>
+    {% if prediction is not none %}
+        <div class="result {% if prediction == 1 %}positive{% else %}negative{% endif %}">
+            {% if prediction == 1 %}
+                Positive 😊
+            {% else %}
+                Negative 😞
+            {% endif %}
+        </div>
     {% endif %}
-  </div>
-{% endif %}
+</div>
 
 </body>
 </html>

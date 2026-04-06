@@ -119,15 +119,5 @@ class TokenJoiner(BaseEstimator, TransformerMixin):
     def transform(self, X, y=None):
         return [' '.join(tokens) for tokens in X]
 
-# Step 8: Rare Word Remover
-class RareWordRemover(BaseEstimator, TransformerMixin):
-    def __init__(self, min_freq=2): self.min_freq = min_freq
-    def fit(self, X, y=None):
-        all_tokens = ' '.join(X).split()
-        counts = Counter(all_tokens)
-        self.rare_words_ = {w for w, c in counts.items() if c < self.min_freq}
-        return self
-    def transform(self, X, y=None):
-        return [' '.join(w for w in text.split() if w not in self.rare_words_) for text in X]
 
 

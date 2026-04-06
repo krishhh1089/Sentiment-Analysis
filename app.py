@@ -9,19 +9,26 @@ preprocess_pipeline = pickle.load(open("text_preprocessing_pipeline.pkl", "rb"))
 tfidf = pickle.load(open("tfidf.pkl", "rb"))
 model = pickle.load(open("sentiment_model.pkl", "rb"))
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def home():
-    return render_template("index.html")
+    return render_template("index.html", prediction=None, input_text="")
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    user_text = request.form["input_text"]
-    cleaned_text = preprocess_pipeline.transform([user_text])
-    tfidf_vector = tfidf.transform(cleaned_text)
-    prediction = model.predict(tfidf_vector)[0]
+    text = request.form["input_text"]
+
+    # 1️⃣ Preprocess text
+    cleaned_text = preprocess_pipeline.transform([text])
+
+    # 2️⃣ Vectorize
+    vectorized = tfidf.transform(cleaned_text)
+
+    # 3️⃣ Predict
+    pred = model.predict(vectorized)[0]
 
     return render_template("index.html",
-                           input_text=user_text,
-                           prediction=prediction)
+                           prediction=pred,
+                           input_text=text)
+
 if __name__ == "__main__":
     app.run(debug=True)
